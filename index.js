@@ -3,12 +3,35 @@ const startButton = document.querySelector("#start");
 const pauseButtton = document.querySelector("#pause");
 const resetButton = document.querySelector("#reset");
 
+const callbacks = {
+  onStart() {
+    console.log("timer started");
+  },
+  onTick() {
+    console.log("Ticked");
+  },
+  onComplete() {
+    console.log("complete");
+  },
+};
+
 class Timer {
-  constructor(durationInput, startButton, pauseButtton, resetButton) {
+  constructor(
+    durationInput,
+    startButton,
+    pauseButtton,
+    resetButton,
+    callbacks
+  ) {
     this.durationInput = durationInput;
     this.startButton = startButton;
     this.pauseButtton = pauseButtton;
     this.resetButton = resetButton;
+    if (callbacks) {
+      this.onStart = callbacks.onStart;
+      this.onTick = callbacks.onTick;
+      this.onComplete = callbacks.onComplete;
+    }
 
     this.timePassed = 0;
 
@@ -18,6 +41,9 @@ class Timer {
   }
 
   start = () => {
+    if (this.onStart) {
+      this.onStart();
+    }
     this.tick();
     this.interval = setInterval(this.tick, 1000);
   };
@@ -36,10 +62,15 @@ class Timer {
   tick = () => {
     if (this.timeRemainig <= 0) {
       this.pause();
+      if (this.onComplete) {
+        this.onComplete();
+      }
     } else {
-      console.log(this.timePassed);
       this.timeRemainig = this.timeRemainig - 1;
       this.seconds = setInterval((this.timePassed = this.timePassed + 1), 1000);
+      if (this.onTick) {
+        this.onTick();
+      }
     }
   };
 
@@ -52,4 +83,4 @@ class Timer {
   }
 }
 
-new Timer(durationInput, startButton, pauseButtton, resetButton);
+new Timer(durationInput, startButton, pauseButtton, resetButton, callbacks);
