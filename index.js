@@ -26,8 +26,8 @@ const callbacks = {
   onPause() {
     console.log("onPause");
   },
-  onRestart() {
-    console.log("onRestart");
+  onContinue() {
+    console.log("onContinue");
   },
 };
 

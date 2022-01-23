@@ -16,7 +16,7 @@ class Timer {
       this.onTick = callbacks.onTick;
       this.onComplete = callbacks.onComplete;
       this.onPause = callbacks.onPause;
-      this.onRestart = callbacks.onRestart;
+      this.onContinue = callbacks.onContinue;
     }
     this.timePassed = timePassed;
 
@@ -45,8 +45,8 @@ class Timer {
       clearInterval(this.interval);
       clearInterval(this.seconds);
     } else {
-      if (this.onRestart) {
-        this.onRestart();
+      if (this.onContinue) {
+        this.onContinue();
       }
       this.pauseButtton.innerHTML = "pause";
       this.start();
@@ -71,6 +71,8 @@ class Timer {
       this.pause();
       if (this.onComplete) {
         this.onComplete();
+        this.pauseButtton.disabled = true;
+        this.pauseButtton.innerHTML = "pause";
       }
     } else {
       this.timeRemainig = this.timeRemainig - 0.02;
