@@ -1,0 +1,22 @@
+#duration {
+  border: 3px solid black;
+  border-radius: 50%;
+  text-align: center;
+  width: 6rem;
+  height: 6rem;
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  font-size: 1.5rem;
+}
+
+.buttons button {
+  background-color: transparent;
+  border: 1px solid black;
+  border-radius: 5px;
+  font-family: monospace;
+  font-size: 1rem;
+  padding: 0.5rem;
+}
+
+#pause {
+  width: 6rem;
+}
