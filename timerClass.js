@@ -4,7 +4,8 @@ class Timer {
     startButton,
     pauseButtton,
     resetButton,
-    callbacks
+    callbacks,
+    timePassed
   ) {
     this.durationInput = durationInput;
     this.startButton = startButton;
@@ -14,9 +15,11 @@ class Timer {
       this.onStart = callbacks.onStart;
       this.onTick = callbacks.onTick;
       this.onComplete = callbacks.onComplete;
+      this.onPause = callbacks.onPause;
+      this.onRestart = callbacks.onRestart;
     }
 
-    this.timePassed = 0;
+    this.timePassed = timePassed;
 
     this.startButton.addEventListener("click", this.start);
     this.pauseButtton.addEventListener("click", this.pause);
@@ -24,25 +27,44 @@ class Timer {
   }
 
   start = () => {
+    this.resetButton.disabled = false;
+    this.pauseButtton.disabled = false;
     if (this.onStart) {
       this.onStart(this.timeRemainig);
     }
     this.tick();
     this.interval = setInterval(this.tick, 20);
+    this.startButton.disabled = true;
   };
 
   pause = () => {
-    clearInterval(this.interval);
-    clearInterval(this.seconds);
+    if (this.pauseButtton.innerHTML === "Pause") {
+      if (this.onPause) {
+        this.onPause();
+      }
+      this.pauseButtton.innerHTML = "Continue";
+      clearInterval(this.interval);
+      clearInterval(this.seconds);
+    } else {
+      if (this.onRestart) {
+        this.onRestart();
+      }
+      this.pauseButtton.innerHTML = "Pause";
+      this.start();
+    }
   };
 
   reset = () => {
-    this.pause();
+    this.resetButton.disabled = true;
+    this.pauseButtton.disabled = true;
+    clearInterval(this.interval);
     this.timeRemainig = this.timeRemainig + this.timePassed;
     this.timePassed = 0;
     if (this.onTick) {
       this.onTick();
     }
+    this.pauseButtton.innerHTML = "Pause";
+    this.startButton.disabled = false;
   };
 
   tick = () => {
@@ -57,7 +79,6 @@ class Timer {
         (this.timePassed = this.timePassed + 0.02),
         1000
       );
-      console.log(this.timePassed);
       if (this.onTick) {
         this.onTick(this.timeRemainig);
       }
