@@ -4,12 +4,6 @@
 
 ---
 
-### Name Of The Game :
-
-Timer app
-
----
-
 ### Quik Intro :
 
 An interactive timer app that displays a simple animation as time goes by
