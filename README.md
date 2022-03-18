@@ -1,7 +1,5 @@
 ---
-# PROJECT : **Timer-app.**
----
-
+# PROJECT : Timer-app.
 ---
 
 ### Quik Intro :
